@@ -1,0 +1,16 @@
+Jurumpsi
+
+2D jump and run; zufallsgeneriert; java basiert;
+pixelart; mario rip-off
+
+Rollenverteilung:
+
+Eric: Datenmanager
+Kilian: Director of Art Design
+Jakob: Head of Level Design
+
+To Do:
+Engine
+Highscoresystem(Datenbank)
+Spiel
+Artdesign

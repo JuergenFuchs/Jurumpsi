@@ -1,3 +1,3 @@
 # Jurumpsi
 Jump and Run Simulator
-eric fat
+i am the storm that is approching

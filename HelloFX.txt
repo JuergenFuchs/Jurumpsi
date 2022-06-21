@@ -1,0 +1,2 @@
+set PATH_TO_FX="C:\Users\rupperte21\Downloads\javafx-sdk-18.0.1\lib"
+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

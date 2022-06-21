@@ -1,3 +1,3 @@
 # Jurumpsi
-Jump and Run Simulator
-Yo mama fat
+Jump and Run Simulator 
+

@@ -1,5 +1,5 @@
 
-public class KNOTEN extends MAPELEMENT
+public class KNOTEN 
 {
 
     public KNOTEN()

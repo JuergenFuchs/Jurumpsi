@@ -1,5 +1,5 @@
 
-public abstract class MAPELEMENT
+public class MAPELEMENT
 {
 
 }

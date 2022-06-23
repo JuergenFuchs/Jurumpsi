@@ -1,16 +1,17 @@
 # Jurumpsi
-<<<<<<< HEAD
-Jump and Run Simulator 
-Life is a Race and i am the Racist
-=======
-Jump and Run Simulator
-<<<<<<< HEAD
-<<<<<<< HEAD
-eric fat
->>>>>>> 0898d2204c3fe236f795acc7555886d9078ff121
-=======
-i am the storm that is approching
->>>>>>> bd86881d0cba9527b19492a662d631cbc9b97ab6
-=======
 
->>>>>>> db8bd3f89897ea1ad00d2329d61a9a1c4a25da27
+Jump and Run Simulator 
+
+Standing here, I realize you were
+Just like me trying to make history.
+But who's to judge the right from wrong.
+When our guard is down I think we'll both agree.
+That violence breeds violence.
+But in the end it has to be this way.
+I've curved my own path, you've followed your wrath;
+But maybe we're both the same.
+The world has turned, and so many have burned.
+But nobody is to blame.
+It's tearing across this barren wasted land.
+I feel new life could be born beneath
+The blood stained sand.

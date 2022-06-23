@@ -12,7 +12,6 @@ public class FXMLBsp extends Application {
         primaryStage.setTitle("FXML-Beispiel");
         primaryStage.setScene(new Scene(root, 100, 57));
         primaryStage.show();
-        primaryStage.setFullScreen(true);
     }
 
     public static void main(String[] args) {

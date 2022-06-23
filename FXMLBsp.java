@@ -18,4 +18,8 @@ public class FXMLBsp extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+    
+    public void test(){
+        System.out.println("Hello World");
+    }
 }

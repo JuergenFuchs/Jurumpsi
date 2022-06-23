@@ -9,7 +9,7 @@
    <center>
       <ImageView fitHeight="1080.0" fitWidth="1920.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
          <image>
-            <Image url="@../asuvl38mli82kpqay7im.png" />
+            <Image url="asuvl38mli82kpqay7im.png" />
          </image>
       </ImageView>
    </center>

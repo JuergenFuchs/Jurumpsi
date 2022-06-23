@@ -11,7 +11,11 @@ public class MAP
     private int[][] matrix;
     public MAP()
     {
-       
+        int maximaleKnoten = 3;
+        anzahlKnoten = 0;
+        knoten = new KNOTEN[maximaleKnoten];
+        matrix = new int[maximaleKnoten][maximaleKnoten];
     }
-
+    
+    
 }

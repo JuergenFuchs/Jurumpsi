@@ -21,6 +21,7 @@ public class Main extends Application {
     //maps keycode to boolean - keycode is the javafx enumeration
     private HashMap<KeyCode, Boolean> keys = new HashMap<KeyCode, Boolean>();
     private ArrayList<Node> platforms = new ArrayList<>();
+    private ArrayList<Node> ends = new ArrayList<>();
     private Pane appRoot = new Pane();
     private Pane gameRoot = new Pane();
     private Pane uiRoot = new Pane();
@@ -30,7 +31,7 @@ public class Main extends Application {
     private boolean canJump = true;
     private int levelWidth;
     //Initiert die Levelgeneration
-    private void initContent(){
+    private void initContent1(){
         Rectangle bg = new Rectangle(1280, 720);
         levelWidth = LevelData.Level1[0].length() * 60;
 
@@ -44,6 +45,10 @@ public class Main extends Application {
                         Node platform = createEntity(j*60, i *60, 60, 60, Color.GREEN);
                         platforms.add(platform);
                         break;
+                    case '2':
+                        Node end = createEntity(j*60, i *60, 60, 60, Color.YELLOW);
+                        ends.add(end);
+                        break;
                 }
             }
         }
@@ -56,7 +61,37 @@ public class Main extends Application {
         });
         appRoot.getChildren().addAll(bg, gameRoot, uiRoot);
     }
-    private void update(){
+     private void initContent2(){
+        Rectangle bg = new Rectangle(1280, 720);
+        levelWidth = LevelData.Level2[0].length() * 60;
+
+        for (int i=0; i< LevelData.Level2.length; i++){
+            String line = LevelData.Level2[i];
+            for (int j=0; j <line.length();j++){
+                switch (line.charAt(j)){
+                    case '0':
+                        break;
+                    case '1':
+                        Node platform = createEntity(j*60, i *60, 60, 60, Color.GREEN);
+                        platforms.add(platform);
+                        break;
+                    case '2':
+                        Node end = createEntity(j*60, i *60, 60, 60, Color.YELLOW);
+                        ends.add(end);
+                        break;
+                    }
+            }
+        }
+        player = createEntity(0, 600, 40, 40, Color.BLUE);
+        player.translateXProperty().addListener((obs, old, newValue) -> {
+            int offset = newValue.intValue();
+            if (offset > 640 && offset < levelWidth-640){
+                gameRoot.setLayoutX(-(offset-640));
+            }
+        });
+        appRoot.getChildren().addAll(bg, gameRoot, uiRoot);
+    }
+        private void update(){
         if (isPressed(KeyCode.W) && player.getTranslateY() >= 5){
             jumpPlayer();
         }
@@ -119,7 +154,7 @@ public class Main extends Application {
         canJump = false;
         }
     }
-    
+    //Die Methode ist für das Erstellen von Blöcken, dem charakter usw. zuständig
     private Node createEntity(int x, int y, int w, int h, Color color){
         Rectangle entity = new Rectangle(w, h);
         entity.setTranslateX(x);
@@ -135,7 +170,7 @@ public class Main extends Application {
     //Startet über JavaFX die Grafik für das Level
     @Override
     public void start(Stage primaryStage) throws Exception{
-        initContent();
+        initContent1();
         Scene scene = new Scene(appRoot);
         scene.setOnKeyPressed(event -> keys.put(event.getCode(), true));
         scene.setOnKeyReleased(event -> keys.put(event.getCode(), false));
@@ -151,7 +186,25 @@ public class Main extends Application {
         };
         timer.start();
     }
+    public void level2s(Stage primaryStage){
+        initContent2();
+        Scene scene = new Scene(appRoot);
+        scene.setOnKeyPressed(event -> keys.put(event.getCode(), true));
+        scene.setOnKeyReleased(event -> keys.put(event.getCode(), false));
+        primaryStage.setTitle("Jurumpsi");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+
+        AnimationTimer timer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                update();
+            }
+        };
+    }
+
     //Started die gesamte Anwendung
+    
     public static void main(String[] args) {
 
         launch(args);

@@ -29,6 +29,7 @@ public class Main extends Application {
     private Point2D playerVelocity = new Point2D(0, 0);
     private boolean canJump = true;
     private int levelWidth;
+    //Initiert die Levelgeneration
     private void initContent(){
         Rectangle bg = new Rectangle(1280, 720);
         levelWidth = LevelData.Level1[0].length() * 60;
@@ -111,12 +112,14 @@ public class Main extends Application {
             player.setTranslateY(player.getTranslateY() + (movingDown ? 1 : -1));
         }
     }
+    //Setzt die Geschwindigkeit des Spielercharakters für das Springen
     private void jumpPlayer(){
     if(canJump){
         playerVelocity = playerVelocity.add(0, -30);
         canJump = false;
         }
     }
+    
     private Node createEntity(int x, int y, int w, int h, Color color){
         Rectangle entity = new Rectangle(w, h);
         entity.setTranslateX(x);
@@ -129,14 +132,14 @@ public class Main extends Application {
     private boolean isPressed(KeyCode key){
     return keys.getOrDefault(key, false);
     }
-
+    //Startet über JavaFX die Grafik für das Level
     @Override
     public void start(Stage primaryStage) throws Exception{
         initContent();
         Scene scene = new Scene(appRoot);
         scene.setOnKeyPressed(event -> keys.put(event.getCode(), true));
         scene.setOnKeyReleased(event -> keys.put(event.getCode(), false));
-        primaryStage.setTitle("Sample game");
+        primaryStage.setTitle("Jurumpsi");
         primaryStage.setScene(scene);
         primaryStage.show();
 
@@ -148,6 +151,7 @@ public class Main extends Application {
         };
         timer.start();
     }
+    //Started die gesamte Anwendung
     public static void main(String[] args) {
 
         launch(args);

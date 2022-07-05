@@ -205,7 +205,7 @@ public class Main extends Application {
             scene.setOnKeyPressed(event -> keys.put(event.getCode(), true));
             scene.setOnKeyReleased(event -> keys.put(event.getCode(), false));
             primaryStage.setTitle("Jurupmsi");
-            end.setOnTouchStationary(e -> primaryStage.setScene(scene1));*/
+            end.setOnTouchMoved(e -> primaryStage.setScene(scene1));*/
 
             primaryStage.setScene(scene);
             primaryStage.show();        

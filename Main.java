@@ -14,14 +14,15 @@ import javafx.scene.shape.Rectangle;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
+import java.util.*;
 
 
 public class Main extends Application {
 
     //maps keycode to boolean - keycode is the javafx enumeration
     private HashMap<KeyCode, Boolean> keys = new HashMap<KeyCode, Boolean>();
-    private ArrayList<Node> platforms = new ArrayList<>();
-    private ArrayList<Node> ends = new ArrayList<>();
+    private ArrayList<Node> platforms = new ArrayList<Node>();
+    private ArrayList<Node> coins = new ArrayList<Node>();
     private Pane appRoot = new Pane();
     private Pane gameRoot = new Pane();
     private Pane uiRoot = new Pane();
@@ -47,7 +48,7 @@ public class Main extends Application {
                         break;
                     case '2':
                         Node end = createEntity(j*60, i *60, 60, 60, Color.YELLOW);
-                        ends.add(end);
+                        coins.add(end);
                         break;
                 }
             }
@@ -76,8 +77,9 @@ public class Main extends Application {
                         platforms.add(platform);
                         break;
                     case '2':
-                        Node end = createEntity(j*60, i *60, 60, 60, Color.YELLOW);
-                        ends.add(end);
+                        Node coin = createEntity(j*config.getBlockSize(), i*config.getBlockSize(), config.getBlockSize(), config.getBlockSize(), Color.GOLD);
+                        coins.add(coin);
+                        break;
                         break;
                     }
             }
@@ -93,7 +95,7 @@ public class Main extends Application {
     }
         private void update(){
         if (isPressed(KeyCode.SPACE) && player.getTranslateY() >= 5){
-
+            jumpPlayer();
         }
         if (isPressed(KeyCode.A) && player.getTranslateX() >=5){
             movePlayerX(-5);
@@ -105,7 +107,22 @@ public class Main extends Application {
             playerVelocity = playerVelocity.add(0, 1);
         }
         movePlayerY((int)playerVelocity.getY());
+         for (Node coin : coins) {
+            if (player.getBoundsInParent().intersects(coin.getBoundsInParent())) {
+                coin.getProperties().put("alive", false);
+                score.set(score.get() + 100);
+            }
         }
+
+        for (Iterator<Node> it = coins.iterator(); it.hasNext(); ) {
+            Node coin = it.next();
+            if (!(Boolean)coin.getProperties().get("alive")) {
+                it.remove();
+                gameRoot.getChildren().remove(coin);
+            }
+        }
+    }
+        
 
 
     private void movePlayerX(int value){
@@ -186,6 +203,13 @@ public class Main extends Application {
         };
         timer.start();
     }
+    public void checkCollisions(){
+        for (Node end : ends){
+        if(player.intersects(end.getBoundsInParent())){
+            System.out.println("a");
+        }
+    }
+    }
     public void level2s(Stage primaryStage){
         initContent2();
         Scene scene = new Scene(appRoot);
@@ -194,7 +218,7 @@ public class Main extends Application {
         primaryStage.setTitle("Jurumpsi");
         primaryStage.setScene(scene);
         primaryStage.show();
-
+        checkCollisions();
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {

@@ -92,8 +92,8 @@ public class Main extends Application {
         appRoot.getChildren().addAll(bg, gameRoot, uiRoot);
     }
         private void update(){
-        if (isPressed(KeyCode.W) && player.getTranslateY() >= 5){
-            jumpPlayer();
+        if (isPressed(KeyCode.SPACE) && player.getTranslateY() >= 5){
+
         }
         if (isPressed(KeyCode.A) && player.getTranslateX() >=5){
             movePlayerX(-5);

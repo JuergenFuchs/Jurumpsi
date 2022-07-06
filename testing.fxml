@@ -15,7 +15,7 @@
             <Image url="@4gwr6brwjhu01.png" />
          </image>
       </ImageView>
-      <Button layoutX="176.0" layoutY="165.0" mnemonicParsing="false" onAction="#start" prefHeight="44.0" prefWidth="248.0" text="Select Level">
+      <Button layoutX="176.0" layoutY="165.0" mnemonicParsing="false" onAction="#start1" prefHeight="44.0" prefWidth="248.0" text="Select Level">
          <font>
             <Font name="Franklin Gothic Medium" size="18.0" />
          </font>

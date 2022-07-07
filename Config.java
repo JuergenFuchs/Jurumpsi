@@ -7,11 +7,11 @@ import javafx.fxml.FXMLLoader;
 public final class Config {
 
     private static Config instance = new Config();
-
+    /** Eine neue Instanz der Einstellungen wird erstellt*/
     public static Config getInstance() {
         return instance;
     }
-
+    /** Die FXML dateien werden geladen und die Informationen gelesen*/
     private Config() {}
 
     static {
@@ -33,7 +33,7 @@ public final class Config {
     private int blockSize;
     @FXML
     private int playerSize;
-
+    /** Die gelesenen Größen werden in Integern gespeichert*/
     public int getAppWidth() {
         return appWidth;
     }

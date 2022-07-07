@@ -3,6 +3,7 @@ import javafx.stage.*;
 
 
 public class LevelData{
+    /** Ein Array welches die Grundlage für das Level darstellt*/
     public static final String[] Level1 = new String[]{
       "00000000000000000000000000000000000000000000000000000000",
       "00000000000000000000000000000000000000000000000000000000",

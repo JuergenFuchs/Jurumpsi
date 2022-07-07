@@ -1,4 +1,4 @@
- import java.util.ArrayList;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import javafx.scene.layout.VBox;
@@ -6,7 +6,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import java.awt.Font;
 import java.io.*;
-
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -88,7 +87,7 @@ public class Main extends Application {
                 gameRoot.getChildren().remove(coin);
             }
         }
-        
+
         for (Node end : ends) {
             if (player.getBoundsInParent().intersects(end.getBoundsInParent())) {
                 end.getProperties().put("alive", false);
@@ -103,8 +102,9 @@ public class Main extends Application {
                 gameRoot.getChildren().remove(end);
             }
         }
-        
+
     }
+
     /** Diese Methode erstellt ein Spielerobject*/
     private Node createPlayer(int x, int y, int w, int h) throws java.io.FileNotFoundException{
         FileInputStream input = new FileInputStream("idlegünter.png");
@@ -114,6 +114,7 @@ public class Main extends Application {
         gameRoot.getChildren().add(player);
         return player;
     }
+
     /** Diese Methode bewegt den Spieler nach Links und Rechts*/
     private void movePlayerX(int value) {
         boolean movingRight = value > 0;
@@ -136,6 +137,7 @@ public class Main extends Application {
             player.setTranslateX(player.getTranslateX() + (movingRight ? 1 : -1));
         }
     }
+
     /**Die Methode lässt den Spieler springen*/
     private void movePlayerY(int value) {
         boolean movingDown = value > 0;
@@ -160,6 +162,7 @@ public class Main extends Application {
             player.setTranslateY(player.getTranslateY() + (movingDown ? 1 : -1));
         }
     }
+
     /** Diese methode checkt ob der Spieler gesprungen ist, und lässt ihn nicht nochmal springen*/
     private void jumpPlayer() {
         if (canJump) {
@@ -167,6 +170,7 @@ public class Main extends Application {
             canJump = false;
         }
     }
+
     /** Diese Methode erstellt die Blöcke, Coins, usw.*/
     private Node createEntity(int x, int y, int w, int h, Color color) {
         Rectangle entity = new Rectangle(w, h);
@@ -182,9 +186,10 @@ public class Main extends Application {
     private boolean isPressed(KeyCode key) {
         return keys.getOrDefault(key, false);
     }
+
     /** Das Array Für das Level wird eingelesen und in die Welt übersetzt
      */
-     @Override
+    @Override
     public void init() throws Exception {
         config = Config.getInstance();
 
@@ -218,20 +223,19 @@ public class Main extends Application {
             }
         }
         /**Der Spieler wird erstellt 
-           */
+         */
         player.translateXProperty().addListener((obs, old, newValue) -> {
-            int offset = newValue.intValue();
+                int offset = newValue.intValue();
 
-            if (offset > config.getAppWidth() / 2 && offset < levelWidth - config.getAppWidth() / 2) {
-                gameRoot.setLayoutX(-(offset - config.getAppWidth() / 2));
-            }
-        });
+                if (offset > config.getAppWidth() / 2 && offset < levelWidth - config.getAppWidth() / 2) {
+                    gameRoot.setLayoutX(-(offset - config.getAppWidth() / 2));
+                }
+            });
     }
 
-    
     /**
      * Methode start
-     *Diese Methode erstellt alle Grafische Elemente
+     *Diese Methode erstellt alle Grafischen Elemente
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -269,15 +273,16 @@ public class Main extends Application {
         primaryStage.setScene(scene1);
         primaryStage.show();
         layout.getChildren().addAll(hintergrund, button, button1, label1);
-        
+        /** Ein neuer Timer welcher die methode Update aufruft wird erstellt*/
         AnimationTimer timer = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                update();
-            }
-        };
+                @Override
+                public void handle(long now) {
+                    update();
+                }
+            };
         timer.start();
     }
+
     /** Started die Gesamte Anwendung
      * 
      */

@@ -24,6 +24,8 @@ import java.lang.Object;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
+import java.net.URL;
+
 
 public class Main extends Application {
 
@@ -88,7 +90,7 @@ public class Main extends Application {
             }
         }
     }
-
+    private ImageView coin;
     /** Diese Methode Erstellt das End-Objekt*/
     private Node createEnd(int x, int y, int w, int h){
         Button button3 = new Button("Next");
@@ -103,15 +105,30 @@ public class Main extends Application {
         return button3;
     }
 
-    /** Diese Methode erstellt ein Spielerobject (Nicht funktionstüchtig) 
-    private Node createPlayer(int x, int y, int w, int h) throws java.io.FileNotFoundException{
-    FileInputStream input = new FileInputStream("idlegünter.png");
-    Image image = new Image(input);
-    ImageView player = new ImageView(image);
-    player.getProperties().put("alive", true);
-    gameRoot.getChildren().add(player);
-    return player;
-    }+7
+    private Node createCoin(int x, int y) throws java.io.FileNotFoundException{
+        this.coin = new ImageView(new Image(getClass().getResourceAsStream("/assets/coin.png")));
+        coin.setTranslateX(x);
+        coin.setTranslateY(y-30);
+        coin.prefHeight(50);
+        coin.prefWidth(100);
+        coin.getProperties().put("alive", true);
+        coin.setVisible(true);
+        gameRoot.getChildren().add(coin);
+        return coin;
+    }
+    
+    /**Diese Methode erstellt ein Spielerobject (Nicht funktionstüchtig) */
+    private Node createPlayer(int x, int y) throws java.io.FileNotFoundException{
+        this.player = new ImageView(new Image(getClass().getResourceAsStream("/assets/coin.png")));
+        player.setTranslateX(x);
+        player.setTranslateY(y-30);
+        player.prefHeight(50);
+        player.prefWidth(100);
+        player.getProperties().put("alive", true);
+        player.setVisible(true);
+        gameRoot.getChildren().add(coin);
+        return coin;
+    }
 
     /** Diese Methode bewegt den Spieler nach Links und Rechts*/
     private void movePlayerX(int value) {
@@ -210,7 +227,7 @@ public class Main extends Application {
                         platforms.add(platform);
                         break;
                     case '2':
-                        Node coin = createEntity(j*config.getBlockSize(), i*config.getBlockSize(), config.getBlockSize(), config.getBlockSize(), Color.GOLD);
+                        Node coin = createCoin(j*config.getBlockSize(), i*config.getBlockSize());
                         coins.add(coin);
                         break;
                     case '3':

@@ -5,6 +5,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import java.awt.Font;
+import java.io.*;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -20,6 +21,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import java.lang.Object;
+import javafx.scene.Node;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
 
 public class Main extends Application {
 
@@ -98,6 +103,12 @@ public class Main extends Application {
                 gameRoot.getChildren().remove(end);
             }
         }
+    }
+    private void createPlayer() throws java.io.FileNotFoundException{
+        FileInputStream input = new FileInputStream("idlegünter.png");
+        Image image = new Image(input);
+        ImageView imageView = new ImageView(image);
+
     }
     /** Diese Methode bewegt den Spieler nach Links und Rechts*/
     private void movePlayerX(int value) {

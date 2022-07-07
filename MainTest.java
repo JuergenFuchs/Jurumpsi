@@ -26,7 +26,7 @@ import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 
-public class Main extends Application {
+public class MainTest extends Application {
 
     private HashMap<KeyCode, Boolean> keys = new HashMap<KeyCode, Boolean>();
 

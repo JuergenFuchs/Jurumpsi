@@ -72,7 +72,7 @@ public class Main extends Application {
         }
 
         movePlayerY((int)playerVelocity.getY());
-        /** Dieser Teil lässt die Coins beim einsammeln verschwinden*/
+        /** Dieser Teil lässt die Coins beim einsammeln verschwinden und erhöht den Score*/
         for (Node coin : coins) {
             if (player.getBoundsInParent().intersects(coin.getBoundsInParent())) {
                 coin.getProperties().put("alive", false);
@@ -87,33 +87,31 @@ public class Main extends Application {
                 gameRoot.getChildren().remove(coin);
             }
         }
-
-        for (Node end : ends) {
-            if (player.getBoundsInParent().intersects(end.getBoundsInParent())) {
-                end.getProperties().put("alive", false);
-                score.set(score.get() + 10000);
-            }
-        }
-
-        for (Iterator<Node> it = ends.iterator(); it.hasNext(); ) {
-            Node end = it.next();
-            if (!(Boolean)end.getProperties().get("alive")) {
-                it.remove();
-                gameRoot.getChildren().remove(end);
-            }
-        }
-
     }
 
-    /** Diese Methode erstellt ein Spielerobject*/
+    /** Diese Methode Erstellt das End-Objekt*/
+    private Node createEnd(int x, int y, int w, int h){
+        Button button3 = new Button("Next");
+        button3.setTranslateX(x-50);
+        button3.setTranslateY(y);
+        button3.getProperties().put("alive", true);
+        button3.setPrefHeight(55);
+        button3.setPrefWidth(150);
+        button3.setOnAction(e -> button3.setText("Level Fertig!"));
+        button3.setStyle("-fx-font: 18 arial;");
+        gameRoot.getChildren().add(button3);
+        return button3;
+    }
+
+    /** Diese Methode erstellt ein Spielerobject (Nicht funktionstüchtig) 
     private Node createPlayer(int x, int y, int w, int h) throws java.io.FileNotFoundException{
-        FileInputStream input = new FileInputStream("idlegünter.png");
-        Image image = new Image(input);
-        ImageView player = new ImageView(image);
-        player.getProperties().put("alive", true);
-        gameRoot.getChildren().add(player);
-        return player;
-    }
+    FileInputStream input = new FileInputStream("idlegünter.png");
+    Image image = new Image(input);
+    ImageView player = new ImageView(image);
+    player.getProperties().put("alive", true);
+    gameRoot.getChildren().add(player);
+    return player;
+    }+7
 
     /** Diese Methode bewegt den Spieler nach Links und Rechts*/
     private void movePlayerX(int value) {
@@ -216,9 +214,10 @@ public class Main extends Application {
                         coins.add(coin);
                         break;
                     case '3':
-                        Node end = createEntity(j*config.getBlockSize(), i*config.getBlockSize(), config.getBlockSize(), config.getBlockSize(), Color.GREEN);
+                        Node end = createEnd(j*config.getBlockSize(), i*config.getBlockSize(), config.getBlockSize(), config.getBlockSize());
                         ends.add(end);
                         break;
+
                 }
             }
         }

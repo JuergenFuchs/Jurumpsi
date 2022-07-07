@@ -60,7 +60,7 @@ public class Main2 extends Application {
                 }
             }
         }
-        player = createEntity(0, 600, 40, 40, Color.BLUE);
+        player = createEntity(0, 600, 40, 40, Color.RED);
         player.translateXProperty().addListener((obs, old, newValue) -> {
                 int offset = newValue.intValue();
                 if (offset > 640 && offset < levelWidth-640){
@@ -234,7 +234,7 @@ public class Main2 extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
         Button button1= new Button();
-        
+        button1.setOnAction(e -> primaryStage.setScene(new Scene(root, 100, 57)));
         Parent root = FXMLLoader.load(getClass().getResource("test.fxml")); 
         /*primaryStage.setScene(new Scene(root, 100, 57));*/
         /*primaryStage.setFullScreen(true);*/

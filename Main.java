@@ -4,6 +4,7 @@ import java.util.Iterator;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import java.awt.Font;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -48,7 +49,7 @@ public class Main extends Application {
     private SimpleIntegerProperty score;
     @FXML
     private Text textScore;
-
+    /** Die Methode checkt ob Knöpfe gedrückt wurden und bewegt den Spieler*/
     private void update() {
         if (isPressed(KeyCode.W) && player.getTranslateY() >= 5) {
             jumpPlayer();
@@ -67,7 +68,7 @@ public class Main extends Application {
         }
 
         movePlayerY((int)playerVelocity.getY());
-
+        /** Dieser Teil lässt die Coins beim einsammeln verschwinden*/
         for (Node coin : coins) {
             if (player.getBoundsInParent().intersects(coin.getBoundsInParent())) {
                 coin.getProperties().put("alive", false);
@@ -98,7 +99,7 @@ public class Main extends Application {
             }
         }
     }
-
+    /** Diese Methode bewegt den Spieler nach Links und Rechts*/
     private void movePlayerX(int value) {
         boolean movingRight = value > 0;
 
@@ -120,7 +121,7 @@ public class Main extends Application {
             player.setTranslateX(player.getTranslateX() + (movingRight ? 1 : -1));
         }
     }
-
+    /**Die Methode lässt den Spieler springen*/
     private void movePlayerY(int value) {
         boolean movingDown = value > 0;
 
@@ -144,14 +145,14 @@ public class Main extends Application {
             player.setTranslateY(player.getTranslateY() + (movingDown ? 1 : -1));
         }
     }
-
+    /** Diese methode checkt ob der Spieler gesprungen ist, und lässt ihn nicht nochmal springen*/
     private void jumpPlayer() {
         if (canJump) {
             playerVelocity = playerVelocity.add(0, -30);
             canJump = false;
         }
     }
-
+    /** Diese Methode erstellt die Blöcke, Coins, usw.*/
     private Node createEntity(int x, int y, int w, int h, Color color) {
         Rectangle entity = new Rectangle(w, h);
         entity.setTranslateX(x);
@@ -166,8 +167,9 @@ public class Main extends Application {
     private boolean isPressed(KeyCode key) {
         return keys.getOrDefault(key, false);
     }
-
-    @Override
+    /** Das Array Für das Level wird eingelesen und in die Welt übersetzt
+     */
+     @Override
     public void init() throws Exception {
         config = Config.getInstance();
 
@@ -200,7 +202,8 @@ public class Main extends Application {
                 }
             }
         }
-
+        /**Der Spieler wird erstellt 
+           */
         player.translateXProperty().addListener((obs, old, newValue) -> {
             int offset = newValue.intValue();
 
@@ -211,23 +214,32 @@ public class Main extends Application {
     }
 
     
+    /**
+     * Methode start
+     *Diese Methode erstellt alle Grafische Elemente
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
-        VBox layout = new VBox();
+        Pane layout = new Pane();
         Scene scene = new Scene(appRoot);
         Scene scene1 = new Scene(layout);
         primaryStage.setFullScreen(true);
         Button button = new Button("Level 1");
+        button.setPrefHeight(100);
+        button.setPrefWidth(200);
+        button.setLayoutX(660);
+        button.setLayoutY(300);
         button.setOnAction(e -> primaryStage.setScene(scene));
+        Button button1 = new Button("Exit Game");
+        button1.setOnAction(e -> primaryStage.hide());
         Label label1 = new Label("Jurumpsi");
-        button.setLayoutX(900);
-        button.setLayoutY(500);
+        button.setMaxSize(500, 300);
         scene.setOnKeyPressed(event -> keys.put(event.getCode(), true));
         scene.setOnKeyReleased(event -> keys.put(event.getCode(), false));
         primaryStage.setTitle("Jurumpsi");
         primaryStage.setScene(scene1);
         primaryStage.show();
-        layout.getChildren().addAll(button, label1);
+        layout.getChildren().addAll(button, button1, label1);
         
         AnimationTimer timer = new AnimationTimer() {
             @Override
@@ -237,7 +249,9 @@ public class Main extends Application {
         };
         timer.start();
     }
-
+    /** Started die Gesamte Anwendung
+     * 
+     */
     public static void main(String[] args) {
         launch(args);
     }

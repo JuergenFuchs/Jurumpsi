@@ -38,6 +38,7 @@ public class Main extends Application {
     private ArrayList<Node> coins = new ArrayList<Node>();
     private ArrayList<Node> ends = new ArrayList<Node>();
     private ArrayList<Node> plats = new ArrayList<Node>();
+    private ArrayList<Node> kills = new ArrayList<Node>();
 
     private Pane appRoot;
     @FXML
@@ -93,6 +94,23 @@ public class Main extends Application {
                 gameRoot.getChildren().remove(coin);
             }
         }
+        
+        for (Node kill : kills) {
+            if (player.getBoundsInParent().intersects(kill.getBoundsInParent())) {
+                kill.getProperties().put("alive", false);
+                player.getProperties().put("alive", false);
+            }
+        }
+
+        for (Iterator<Node> it = kills.iterator(); it.hasNext(); ) {
+            Node kill = it.next();
+            if (!(Boolean)kill.getProperties().get("alive")) {
+                it.remove();
+                gameRoot.getChildren().remove(kill);
+                gameRoot.getChildren().remove(player);
+            }
+        }
+        
     }
     private ImageView coin;
     /** Diese Methode Erstellt das End-Objekt*/
@@ -108,7 +126,19 @@ public class Main extends Application {
         gameRoot.getChildren().add(button3);
         return button3;
     }
-
+    private ImageView kill;
+    private Node createKill(int x, int y) throws java.io.FileNotFoundException{
+        this.kill = new ImageView(new Image(getClass().getResourceAsStream("/assets/günterstanding2.png")));
+        kill.setTranslateX(x);
+        kill.setTranslateY(y-30);
+        kill.prefHeight(50);
+        kill.prefWidth(100);
+        kill.getProperties().put("alive", true);
+        kill.setVisible(true);
+        gameRoot.getChildren().add(kill);
+        return kill;
+    }
+    
     private Node createCoin(int x, int y) throws java.io.FileNotFoundException{
         this.coin = new ImageView(new Image(getClass().getResourceAsStream("/assets/coin.png")));
         coin.setTranslateX(x);
@@ -120,31 +150,6 @@ public class Main extends Application {
         gameRoot.getChildren().add(coin);
         return coin;
     }
-    /*private ImageView plat;
-    private Node createPlat(int x, int y) throws java.io.FileNotFoundException{
-        this.plat = new ImageView(new Image(getClass().getResourceAsStream("/assets/coin.png")));
-        plat.setTranslateX(x);
-        plat.setTranslateY(y-30);
-        plat.prefHeight(50);
-        plat.prefWidth(100);
-        plat.getProperties().put("alive", true);
-        plat.setVisible(true);
-        gameRoot.getChildren().add(plat);
-        return plat;
-    }
-    
-    /*Diese Methode erstellt ein Spielerobject (Nicht funktionstüchtig) 
-    private Node createPlayer(int x, int y) throws java.io.FileNotFoundException{
-        this.player = new ImageView(new Image(getClass().getResourceAsStream("/assets/coin.png")));
-        player.setTranslateX(x);
-        player.setTranslateY(y-30);
-        player.prefHeight(50);
-        player.prefWidth(100);
-        player.getProperties().put("alive", true);
-        player.setVisible(true);
-        gameRoot.getChildren().add(coin);
-        return coin;
-    }*/
 
     /** Diese Methode bewegt den Spieler nach Links und Rechts*/
     private void movePlayerX(int value) {
@@ -250,7 +255,10 @@ public class Main extends Application {
                         Node end = createEnd(j*config.getBlockSize(), i*config.getBlockSize(), config.getBlockSize(), config.getBlockSize());
                         ends.add(end);
                         break;
-
+                    case '4':
+                        Node kill = createKill(j*config.getBlockSize(), i*config.getBlockSize());
+                        kills.add(kill);
+                        break;
                 }
             }
         }
@@ -292,6 +300,10 @@ public class Main extends Application {
         button1.setLayoutY(600);
         button1.setStyle("-fx-font: 36 arial;");
         button1.setOnAction(e -> primaryStage.hide());
+        Button button2 = new Button("Main Menu");
+        button2.setPrefHeight(40);
+        button2.setPrefWidth(200);
+        button2.setOnAction(e -> primaryStage.setScene(scene1));
         Label label1 = new Label("Jurumpsi");
         label1.setPrefHeight(80);
         label1.setPrefWidth(200);
@@ -304,6 +316,7 @@ public class Main extends Application {
         primaryStage.setTitle("Jurumpsi");
         primaryStage.setScene(scene1);
         primaryStage.show();
+        appRoot.getChildren().addAll(button2);
         layout.getChildren().addAll(hintergrund, button, button1, label1);
         /** Ein neuer Timer welcher die methode Update aufruft wird erstellt*/
         AnimationTimer timer = new AnimationTimer() {

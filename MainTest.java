@@ -88,32 +88,17 @@ public class MainTest extends Application {
                 gameRoot.getChildren().remove(coin);
             }
         }
-        
-        for (Node end : ends) {
-            if (player.getBoundsInParent().intersects(end.getBoundsInParent())) {
-                end.getProperties().put("alive", false);
-                score.set(score.get() + 10000);
-            }
-        }
-
-        for (Iterator<Node> it = ends.iterator(); it.hasNext(); ) {
-            Node end = it.next();
-            if (!(Boolean)end.getProperties().get("alive")) {
-                it.remove();
-                gameRoot.getChildren().remove(end);
-            }
-        }
-        
     }
-    /** Diese Methode erstellt ein Spielerobject*/
-    private Node createPlayer(int x, int y, int w, int h) throws java.io.FileNotFoundException{
+    /* Diese Methode erstellt ein Spielerobject
+     * 
+        private Node createPlayer(int x, int y, int w, int h) throws java.io.FileNotFoundException{
         FileInputStream input = new FileInputStream("idlegünter.png");
         Image image = new Image(input);
         ImageView player = new ImageView(image);
         player.getProperties().put("alive", true);
         gameRoot.getChildren().add(player);
         return player;
-    }
+    }*/
     /** Diese Methode bewegt den Spieler nach Links und Rechts*/
     private void movePlayerX(int value) {
         boolean movingRight = value > 0;

@@ -26,7 +26,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 import java.net.URL;
 
-
+/**
+ * @author Eric Ruppert, Jakob Brüderlein, Killian Gerschütz
+ * @version 0.9
+ */
 public class Main extends Application {
 
     private HashMap<KeyCode, Boolean> keys = new HashMap<KeyCode, Boolean>();
@@ -34,6 +37,7 @@ public class Main extends Application {
     private ArrayList<Node> platforms = new ArrayList<Node>();
     private ArrayList<Node> coins = new ArrayList<Node>();
     private ArrayList<Node> ends = new ArrayList<Node>();
+    private ArrayList<Node> plats = new ArrayList<Node>();
 
     private Pane appRoot;
     @FXML
@@ -116,8 +120,20 @@ public class Main extends Application {
         gameRoot.getChildren().add(coin);
         return coin;
     }
+    /*private ImageView plat;
+    private Node createPlat(int x, int y) throws java.io.FileNotFoundException{
+        this.plat = new ImageView(new Image(getClass().getResourceAsStream("/assets/coin.png")));
+        plat.setTranslateX(x);
+        plat.setTranslateY(y-30);
+        plat.prefHeight(50);
+        plat.prefWidth(100);
+        plat.getProperties().put("alive", true);
+        plat.setVisible(true);
+        gameRoot.getChildren().add(plat);
+        return plat;
+    }
     
-    /**Diese Methode erstellt ein Spielerobject (Nicht funktionstüchtig) */
+    /*Diese Methode erstellt ein Spielerobject (Nicht funktionstüchtig) 
     private Node createPlayer(int x, int y) throws java.io.FileNotFoundException{
         this.player = new ImageView(new Image(getClass().getResourceAsStream("/assets/coin.png")));
         player.setTranslateX(x);
@@ -128,7 +144,7 @@ public class Main extends Application {
         player.setVisible(true);
         gameRoot.getChildren().add(coin);
         return coin;
-    }
+    }*/
 
     /** Diese Methode bewegt den Spieler nach Links und Rechts*/
     private void movePlayerX(int value) {

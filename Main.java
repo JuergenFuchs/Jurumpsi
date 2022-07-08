@@ -52,7 +52,8 @@ public class Main extends Application {
     private Point2D playerVelocity = new Point2D(0, 0);
     private boolean canJump = true;
 
-    private int levelWidth;
+    private int levelWidth1;
+    private int levelWidth2;
 
     private Config config;
     private int score2;
@@ -70,7 +71,7 @@ public class Main extends Application {
             movePlayerX(-5);
         }
 
-        if (isPressed(KeyCode.D) && player.getTranslateX() + config.getPlayerSize() <= levelWidth - 5) {
+        if (isPressed(KeyCode.D) && player.getTranslateX() + config.getPlayerSize() <= levelWidth1 - 5) {
             movePlayerX(5);
         }
 
@@ -108,12 +109,18 @@ public class Main extends Application {
                 it.remove();
                 gameRoot.getChildren().remove(kill);
                 gameRoot.getChildren().remove(player);
+                gameRoot.getChildren().clear();
             }
         }
         
     }
     private ImageView coin;
+    public int test;
     /** Diese Methode Erstellt das End-Objekt*/
+    private void test(){
+        test = 1;
+    }
+    
     private Node createEnd(int x, int y, int w, int h){
         Button button3 = new Button("Next");
         button3.setTranslateX(x-50);
@@ -121,7 +128,7 @@ public class Main extends Application {
         button3.getProperties().put("alive", true);
         button3.setPrefHeight(55);
         button3.setPrefWidth(150);
-        button3.setOnAction(e -> button3.setText("Level Fertig!"));
+        button3.setOnAction(e -> test());
         button3.setStyle("-fx-font: 18 arial;");
         gameRoot.getChildren().add(button3);
         return button3;
@@ -234,11 +241,18 @@ public class Main extends Application {
         appRoot = loader.load();
 
         textScore.textProperty().bind(score.asString());
-
-        levelWidth = LevelData.Level1[0].length() * config.getBlockSize();
-
-        for (int i = 0; i < LevelData.Level1.length; i++) {
+        levelWidth1 = LevelData.Level1[0].length() * config.getBlockSize();
+        int leveldata1= LevelData.Level1.length;
+        int leveldata2= LevelData.Level2.length;
+        if(test == 1){
+            leveldata1 = leveldata2;
+        }
+        for (int i = 0; i < leveldata2; i++) {
             String line = LevelData.Level1[i];
+            String line2 = LevelData.Level2[i];
+            if (test == 1){
+                line = line2;
+            }
             for (int j = 0; j < line.length(); j++) {
                 switch (line.charAt(j)) {
                     case '0':
@@ -267,12 +281,12 @@ public class Main extends Application {
         player.translateXProperty().addListener((obs, old, newValue) -> {
                 int offset = newValue.intValue();
 
-                if (offset > config.getAppWidth() / 2 && offset < levelWidth - config.getAppWidth() / 2) {
+                if (offset > config.getAppWidth() / 2 && offset < levelWidth1 - config.getAppWidth() / 2) {
                     gameRoot.setLayoutX(-(offset - config.getAppWidth() / 2));
                 }
             });
     }
-
+    
     /**
      * Methode start
      *Diese Methode erstellt alle Grafischen Elemente
@@ -302,7 +316,8 @@ public class Main extends Application {
         button1.setOnAction(e -> primaryStage.hide());
         Button button2 = new Button("Main Menu");
         button2.setPrefHeight(40);
-        button2.setPrefWidth(200);
+        button2.setPrefWidth(300);
+        button2.setStyle("-fx-font: 36 arial;");
         button2.setOnAction(e -> primaryStage.setScene(scene1));
         Label label1 = new Label("Jurumpsi");
         label1.setPrefHeight(80);

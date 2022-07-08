@@ -1,4 +1,4 @@
- import java.util.ArrayList;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import javafx.scene.layout.VBox;
@@ -6,7 +6,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import java.awt.Font;
 import java.io.*;
-
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -25,7 +24,12 @@ import java.lang.Object;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
+import java.net.URL;
 
+/**
+ * @author Eric Ruppert, Jakob Brüderlein, Killian Gerschütz
+ * @version 0.9
+ */
 public class MainTest extends Application {
 
     private HashMap<KeyCode, Boolean> keys = new HashMap<KeyCode, Boolean>();
@@ -33,6 +37,8 @@ public class MainTest extends Application {
     private ArrayList<Node> platforms = new ArrayList<Node>();
     private ArrayList<Node> coins = new ArrayList<Node>();
     private ArrayList<Node> ends = new ArrayList<Node>();
+    private ArrayList<Node> plats = new ArrayList<Node>();
+    private ArrayList<Node> kills = new ArrayList<Node>();
 
     private Pane appRoot;
     @FXML
@@ -46,7 +52,8 @@ public class MainTest extends Application {
     private Point2D playerVelocity = new Point2D(0, 0);
     private boolean canJump = true;
 
-    private int levelWidth;
+    private int levelWidth1;
+    private int levelWidth2;
 
     private Config config;
     private int score2;
@@ -64,7 +71,7 @@ public class MainTest extends Application {
             movePlayerX(-5);
         }
 
-        if (isPressed(KeyCode.D) && player.getTranslateX() + config.getPlayerSize() <= levelWidth - 5) {
+        if (isPressed(KeyCode.D) && player.getTranslateX() + config.getPlayerSize() <= levelWidth1 - 5) {
             movePlayerX(5);
         }
 
@@ -73,7 +80,7 @@ public class MainTest extends Application {
         }
 
         movePlayerY((int)playerVelocity.getY());
-        /** Dieser Teil lässt die Coins beim einsammeln verschwinden*/
+        /** Dieser Teil lässt die Coins beim einsammeln verschwinden und erhöht den Score*/
         for (Node coin : coins) {
             if (player.getBoundsInParent().intersects(coin.getBoundsInParent())) {
                 coin.getProperties().put("alive", false);
@@ -88,17 +95,70 @@ public class MainTest extends Application {
                 gameRoot.getChildren().remove(coin);
             }
         }
+        
+        for (Node kill : kills) {
+            if (player.getBoundsInParent().intersects(kill.getBoundsInParent())) {
+                kill.getProperties().put("alive", false);
+                player.getProperties().put("alive", false);
+            }
+        }
+
+        for (Iterator<Node> it = kills.iterator(); it.hasNext(); ) {
+            Node kill = it.next();
+            if (!(Boolean)kill.getProperties().get("alive")) {
+                it.remove();
+                gameRoot.getChildren().remove(kill);
+                gameRoot.getChildren().remove(player);
+                gameRoot.getChildren().clear();
+            }
+        }
+        
     }
-    /* Diese Methode erstellt ein Spielerobject
-     * 
-        private Node createPlayer(int x, int y, int w, int h) throws java.io.FileNotFoundException{
-        FileInputStream input = new FileInputStream("idlegünter.png");
-        Image image = new Image(input);
-        ImageView player = new ImageView(image);
-        player.getProperties().put("alive", true);
-        gameRoot.getChildren().add(player);
-        return player;
-    }*/
+    private ImageView coin;
+    public int test;
+    /** Diese Methode Erstellt das End-Objekt*/
+    private void test() throws Exception{
+        test = 1;
+        init();
+    }
+    
+    private Node createEnd(int x, int y, int w, int h)throws java.lang.Exception{
+        Button button3 = new Button("Next");
+        button3.setTranslateX(x-50);
+        button3.setTranslateY(y);
+        button3.getProperties().put("alive", true);
+        button3.setPrefHeight(55);
+        button3.setPrefWidth(150);
+        button3.setOnAction(e -> test());
+        button3.setStyle("-fx-font: 18 arial;");
+        gameRoot.getChildren().add(button3);
+        return button3;
+    }
+    private ImageView kill;
+    private Node createKill(int x, int y) throws java.io.FileNotFoundException{
+        this.kill = new ImageView(new Image(getClass().getResourceAsStream("/assets/günterstanding2.png")));
+        kill.setTranslateX(x);
+        kill.setTranslateY(y-30);
+        kill.prefHeight(50);
+        kill.prefWidth(100);
+        kill.getProperties().put("alive", true);
+        kill.setVisible(true);
+        gameRoot.getChildren().add(kill);
+        return kill;
+    }
+    
+    private Node createCoin(int x, int y) throws java.io.FileNotFoundException{
+        this.coin = new ImageView(new Image(getClass().getResourceAsStream("/assets/coin.png")));
+        coin.setTranslateX(x);
+        coin.setTranslateY(y-30);
+        coin.prefHeight(50);
+        coin.prefWidth(100);
+        coin.getProperties().put("alive", true);
+        coin.setVisible(true);
+        gameRoot.getChildren().add(coin);
+        return coin;
+    }
+
     /** Diese Methode bewegt den Spieler nach Links und Rechts*/
     private void movePlayerX(int value) {
         boolean movingRight = value > 0;
@@ -121,6 +181,7 @@ public class MainTest extends Application {
             player.setTranslateX(player.getTranslateX() + (movingRight ? 1 : -1));
         }
     }
+
     /**Die Methode lässt den Spieler springen*/
     private void movePlayerY(int value) {
         boolean movingDown = value > 0;
@@ -145,6 +206,7 @@ public class MainTest extends Application {
             player.setTranslateY(player.getTranslateY() + (movingDown ? 1 : -1));
         }
     }
+
     /** Diese methode checkt ob der Spieler gesprungen ist, und lässt ihn nicht nochmal springen*/
     private void jumpPlayer() {
         if (canJump) {
@@ -152,6 +214,7 @@ public class MainTest extends Application {
             canJump = false;
         }
     }
+
     /** Diese Methode erstellt die Blöcke, Coins, usw.*/
     private Node createEntity(int x, int y, int w, int h, Color color) {
         Rectangle entity = new Rectangle(w, h);
@@ -167,9 +230,10 @@ public class MainTest extends Application {
     private boolean isPressed(KeyCode key) {
         return keys.getOrDefault(key, false);
     }
+
     /** Das Array Für das Level wird eingelesen und in die Welt übersetzt
      */
-     @Override
+    @Override
     public void init() throws Exception {
         config = Config.getInstance();
 
@@ -178,11 +242,18 @@ public class MainTest extends Application {
         appRoot = loader.load();
 
         textScore.textProperty().bind(score.asString());
-
-        levelWidth = LevelData.Level1[0].length() * config.getBlockSize();
-
-        for (int i = 0; i < LevelData.Level1.length; i++) {
+        levelWidth1 = LevelData.Level1[0].length() * config.getBlockSize();
+        int leveldata1= LevelData.Level1.length;
+        int leveldata2= LevelData.Level2.length;
+        if(test == 1){
+            leveldata1 = leveldata2;
+        }
+        for (int i = 0; i < leveldata2; i++) {
             String line = LevelData.Level1[i];
+            String line2 = LevelData.Level2[i];
+            if (test == 1){
+                line = line2;
+            }
             for (int j = 0; j < line.length(); j++) {
                 switch (line.charAt(j)) {
                     case '0':
@@ -192,31 +263,34 @@ public class MainTest extends Application {
                         platforms.add(platform);
                         break;
                     case '2':
-                        Node coin = createEntity(j*config.getBlockSize(), i*config.getBlockSize(), config.getBlockSize(), config.getBlockSize(), Color.GOLD);
+                        Node coin = createCoin(j*config.getBlockSize(), i*config.getBlockSize());
                         coins.add(coin);
                         break;
                     case '3':
-                        Node end = createEntity(j*config.getBlockSize(), i*config.getBlockSize(), config.getBlockSize(), config.getBlockSize(), Color.GREEN);
+                        Node end = createEnd(j*config.getBlockSize(), i*config.getBlockSize(), config.getBlockSize(), config.getBlockSize());
                         ends.add(end);
+                        break;
+                    case '4':
+                        Node kill = createKill(j*config.getBlockSize(), i*config.getBlockSize());
+                        kills.add(kill);
                         break;
                 }
             }
         }
         /**Der Spieler wird erstellt 
-           */
+         */
         player.translateXProperty().addListener((obs, old, newValue) -> {
-            int offset = newValue.intValue();
+                int offset = newValue.intValue();
 
-            if (offset > config.getAppWidth() / 2 && offset < levelWidth - config.getAppWidth() / 2) {
-                gameRoot.setLayoutX(-(offset - config.getAppWidth() / 2));
-            }
-        });
+                if (offset > config.getAppWidth() / 2 && offset < levelWidth1 - config.getAppWidth() / 2) {
+                    gameRoot.setLayoutX(-(offset - config.getAppWidth() / 2));
+                }
+            });
     }
-
     
     /**
      * Methode start
-     *Diese Methode erstellt alle Grafische Elemente
+     *Diese Methode erstellt alle Grafischen Elemente
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -241,6 +315,11 @@ public class MainTest extends Application {
         button1.setLayoutY(600);
         button1.setStyle("-fx-font: 36 arial;");
         button1.setOnAction(e -> primaryStage.hide());
+        Button button2 = new Button("Main Menu");
+        button2.setPrefHeight(40);
+        button2.setPrefWidth(300);
+        button2.setStyle("-fx-font: 36 arial;");
+        button2.setOnAction(e -> primaryStage.setScene(scene1));
         Label label1 = new Label("Jurumpsi");
         label1.setPrefHeight(80);
         label1.setPrefWidth(200);
@@ -253,16 +332,18 @@ public class MainTest extends Application {
         primaryStage.setTitle("Jurumpsi");
         primaryStage.setScene(scene1);
         primaryStage.show();
+        appRoot.getChildren().addAll(button2);
         layout.getChildren().addAll(hintergrund, button, button1, label1);
-        
+        /** Ein neuer Timer welcher die methode Update aufruft wird erstellt*/
         AnimationTimer timer = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                update();
-            }
-        };
+                @Override
+                public void handle(long now) {
+                    update();
+                }
+            };
         timer.start();
     }
+
     /** Started die Gesamte Anwendung
      * 
      */

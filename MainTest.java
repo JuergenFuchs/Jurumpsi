@@ -61,6 +61,7 @@ public class MainTest extends Application {
     private SimpleIntegerProperty score;
     @FXML
     private Text textScore;
+    public int test;
     /** Die Methode checkt ob Knöpfe gedrückt wurden und bewegt den Spieler*/
     private void update() {
         if (isPressed(KeyCode.W) && player.getTranslateY() >= 5) {
@@ -93,6 +94,7 @@ public class MainTest extends Application {
             if (!(Boolean)coin.getProperties().get("alive")) {
                 it.remove();
                 gameRoot.getChildren().remove(coin);
+                test = 1;
             }
         }
         
@@ -115,14 +117,12 @@ public class MainTest extends Application {
         
     }
     private ImageView coin;
-    public int test;
     /** Diese Methode Erstellt das End-Objekt*/
-    private void test() throws Exception{
+    private void test(){
         test = 1;
-        init();
     }
     
-    private Node createEnd(int x, int y, int w, int h)throws java.lang.Exception{
+    private Node createEnd(int x, int y, int w, int h){
         Button button3 = new Button("Next");
         button3.setTranslateX(x-50);
         button3.setTranslateY(y);

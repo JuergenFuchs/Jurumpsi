@@ -61,6 +61,7 @@ public class Main extends Application {
     private SimpleIntegerProperty score;
     @FXML
     private Text textScore;
+    public int test;
     /** Die Methode checkt ob Knöpfe gedrückt wurden und bewegt den Spieler*/
     private void update() {
         if (isPressed(KeyCode.W) && player.getTranslateY() >= 5) {
@@ -93,6 +94,7 @@ public class Main extends Application {
             if (!(Boolean)coin.getProperties().get("alive")) {
                 it.remove();
                 gameRoot.getChildren().remove(coin);
+                test = 1;
             }
         }
         
@@ -115,7 +117,6 @@ public class Main extends Application {
         
     }
     private ImageView coin;
-    public int test;
     /** Diese Methode Erstellt das End-Objekt*/
     private void test(){
         test = 1;

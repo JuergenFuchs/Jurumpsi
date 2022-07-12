@@ -94,10 +94,9 @@ public class Main extends Application {
             if (!(Boolean)coin.getProperties().get("alive")) {
                 it.remove();
                 gameRoot.getChildren().remove(coin);
-                test = 1;
             }
         }
-        
+
         for (Node kill : kills) {
             if (player.getBoundsInParent().intersects(kill.getBoundsInParent())) {
                 kill.getProperties().put("alive", false);
@@ -114,14 +113,10 @@ public class Main extends Application {
                 gameRoot.getChildren().clear();
             }
         }
-        
+
     }
     private ImageView coin;
     /** Diese Methode Erstellt das End-Objekt*/
-    private void test(){
-        test = 1;
-    }
-    
     private Node createEnd(int x, int y, int w, int h){
         Button button3 = new Button("Next");
         button3.setTranslateX(x-50);
@@ -129,13 +124,15 @@ public class Main extends Application {
         button3.getProperties().put("alive", true);
         button3.setPrefHeight(55);
         button3.setPrefWidth(150);
-        button3.setOnAction(e -> test());
+        button3.setOnAction(e -> button3.setText("Level Fertig!"));
         button3.setStyle("-fx-font: 18 arial;");
         gameRoot.getChildren().add(button3);
         return button3;
     }
     private ImageView kill;
-    private Node createKill(int x, int y) throws java.io.FileNotFoundException{
+    /** das kill objekt wird erstellt
+     * 
+     */  private Node createKill(int x, int y) throws java.io.FileNotFoundException{
         this.kill = new ImageView(new Image(getClass().getResourceAsStream("/assets/günterstanding2.png")));
         kill.setTranslateX(x);
         kill.setTranslateY(y-30);
@@ -146,7 +143,8 @@ public class Main extends Application {
         gameRoot.getChildren().add(kill);
         return kill;
     }
-    
+
+    /** Die methode definiert die coins*/
     private Node createCoin(int x, int y) throws java.io.FileNotFoundException{
         this.coin = new ImageView(new Image(getClass().getResourceAsStream("/assets/coin.png")));
         coin.setTranslateX(x);
@@ -215,7 +213,7 @@ public class Main extends Application {
         }
     }
 
-    /** Diese Methode erstellt die Blöcke, Coins, usw.*/
+    /** Diese Methode erstellt die Blöcke*/
     private Node createEntity(int x, int y, int w, int h, Color color) {
         Rectangle entity = new Rectangle(w, h);
         entity.setTranslateX(x);
@@ -287,7 +285,7 @@ public class Main extends Application {
                 }
             });
     }
-    
+
     /**
      * Methode start
      *Diese Methode erstellt alle Grafischen Elemente
@@ -347,7 +345,7 @@ public class Main extends Application {
     /** Started die Gesamte Anwendung
      * 
      */
-    public static void main(String[] args) {
+    public static void Main(String[] args) {
         launch(args);
     }
 }

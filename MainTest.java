@@ -94,7 +94,6 @@ public class MainTest extends Application {
             if (!(Boolean)coin.getProperties().get("alive")) {
                 it.remove();
                 gameRoot.getChildren().remove(coin);
-                test = 1;
             }
         }
         
@@ -117,11 +116,11 @@ public class MainTest extends Application {
         
     }
     private ImageView coin;
-    /** Diese Methode Erstellt das End-Objekt*/
+    /** Diese Methode ändert den wert des Integers*/
     private void test(){
         test = 1;
     }
-    
+    /** Diese Methode Erstellt das End-Objekt*/
     private Node createEnd(int x, int y, int w, int h){
         Button button3 = new Button("Next");
         button3.setTranslateX(x-50);
@@ -135,7 +134,9 @@ public class MainTest extends Application {
         return button3;
     }
     private ImageView kill;
-    private Node createKill(int x, int y) throws java.io.FileNotFoundException{
+    /** das kill objekt wird erstellt
+     * 
+     */  private Node createKill(int x, int y) throws java.io.FileNotFoundException{
         this.kill = new ImageView(new Image(getClass().getResourceAsStream("/assets/günterstanding2.png")));
         kill.setTranslateX(x);
         kill.setTranslateY(y-30);
@@ -146,7 +147,7 @@ public class MainTest extends Application {
         gameRoot.getChildren().add(kill);
         return kill;
     }
-    
+    /** Die methode definiert die coins*/
     private Node createCoin(int x, int y) throws java.io.FileNotFoundException{
         this.coin = new ImageView(new Image(getClass().getResourceAsStream("/assets/coin.png")));
         coin.setTranslateX(x);
@@ -215,7 +216,7 @@ public class MainTest extends Application {
         }
     }
 
-    /** Diese Methode erstellt die Blöcke, Coins, usw.*/
+    /** Diese Methode erstellt die Blöcke*/
     private Node createEntity(int x, int y, int w, int h, Color color) {
         Rectangle entity = new Rectangle(w, h);
         entity.setTranslateX(x);
@@ -237,7 +238,7 @@ public class MainTest extends Application {
     public void init() throws Exception {
         config = Config.getInstance();
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("game.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("testing.fxml"));
         loader.setController(this);
         appRoot = loader.load();
 
@@ -347,7 +348,7 @@ public class MainTest extends Application {
     /** Started die Gesamte Anwendung
      * 
      */
-    public static void main(String[] args) {
+    public static void Main(String[] args) {
         launch(args);
     }
 }
